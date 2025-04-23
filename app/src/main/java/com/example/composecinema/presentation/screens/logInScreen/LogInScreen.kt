@@ -1,6 +1,7 @@
 package com.example.composecinema.presentation.screens.logInScreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,10 +30,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Gray
+import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -72,7 +76,7 @@ fun LogInScreen(onBack: () -> Unit) {
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Dark,
+                    containerColor = Transparent,
                     navigationIconContentColor = Color.White,
                     titleContentColor = Color.White,
                     actionIconContentColor = Color.White
@@ -119,14 +123,55 @@ fun LogInScreen(onBack: () -> Unit) {
                         .padding(vertical = 8.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor     = BlueAccent,
-                        unfocusedBorderColor   = Gray,
-                        cursorColor            = BlueAccent,
-                        focusedTextColor       = White,
-                        unfocusedTextColor     = Green,
+                        focusedBorderColor = BlueAccent,
+                        unfocusedBorderColor = Gray,
+                        cursorColor = BlueAccent,
+                        focusedTextColor = White,
+                        unfocusedTextColor = Green,
                     )
                 )
+
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = {
+                        Text(
+                            text = "Password",
+                            color = Color.White.copy(alpha = 0.7f)
+                        )
+                    },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done
+                    ),
+                    visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        Text(
+                            text = if (isPasswordVisible) "👁️" else "🔒",
+                            color = Color.Cyan,
+                            fontSize = 18.sp,
+                            modifier = Modifier
+                                .clickable { isPasswordVisible = !isPasswordVisible }
+                                .padding(4.dp)
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .padding(vertical = 8.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color(0xFF64B5F6), // Light blue
+                        unfocusedBorderColor = Color.Gray,
+                        cursorColor = Color(0xFF64B5F6),
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.Green
+                    )
+                )
+
             }
+
+
         }
     }
 }
