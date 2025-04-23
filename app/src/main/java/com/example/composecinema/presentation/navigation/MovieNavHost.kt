@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composecinema.presentation.screens.logInOrSignUpScreen.LogInOrSignUpScreen
 import com.example.composecinema.presentation.screens.logInScreen.LogInScreen
+import com.example.composecinema.presentation.screens.mainPage.MainPageScreen
 import com.example.composecinema.presentation.screens.signUpScreen.SignUpScreen
 
 @Composable
@@ -90,8 +91,15 @@ fun MovieNavHost() {
 
         composable(NavDestinations.SIGNUP) {
             SignUpScreen(
-
+                onBackPress = {navController.popBackStack()},
+                onSignUpClick = {
+                    navController.navigate(NavDestinations.MAIN)
+                }
             )
+        }
+
+        composable(NavDestinations.MAIN) {
+            MainPageScreen()
         }
     }
 }

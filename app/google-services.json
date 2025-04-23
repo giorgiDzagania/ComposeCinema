@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "998988076704",
+    "project_id": "composemovies",
+    "storage_bucket": "composemovies.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998988076704:android:ce2b3add359dd8618adbc5",
+        "android_client_info": {
+          "package_name": "com.example.composecinema"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAnvkaaUDNKkmxiGWtMB4jonGjEn6uugE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
