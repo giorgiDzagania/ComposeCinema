@@ -10,6 +10,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -17,6 +18,8 @@ import com.example.composecinema.presentation.screens.logInOrSignUpScreen.LogInO
 import com.example.composecinema.presentation.screens.logInScreen.LogInScreen
 import com.example.composecinema.presentation.screens.mainPage.MainPageScreen
 import com.example.composecinema.presentation.screens.signUpScreen.SignUpScreen
+import com.example.composecinema.presentation.screens.signUpScreen.SignUpViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MovieNavHost() {
@@ -90,9 +93,15 @@ fun MovieNavHost() {
         }
 
         composable(NavDestinations.SIGNUP) {
+            val viewModel: SignUpViewModel = koinViewModel()
+            val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
             SignUpScreen(
-                onBackPress = {navController.popBackStack()},
-                onSignUpClick = {
+                viewState = viewState,
+                onBackPress = { navController.popBackStack() },
+                onRegisterUser = { name, email, password ->
+                    viewModel.signUpUser(name, email, password)
+                },
+                onNavigateNext = {
                     navController.navigate(NavDestinations.MAIN)
                 }
             )
