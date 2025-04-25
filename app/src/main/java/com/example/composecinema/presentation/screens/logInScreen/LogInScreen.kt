@@ -41,14 +41,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import com.example.composecinema.presentation.navigation.NavDest
 import com.example.composecinema.presentation.ui.theme.BlueAccent
 import com.example.composecinema.presentation.ui.theme.Dark
 import com.example.composecinema.presentation.ui.theme.Green
 import com.example.composecinema.presentation.ui.theme.White
 
+fun NavGraphBuilder.loginDestination(
+    onBackClick: () -> Unit
+) = composable<NavDest.Login> {
+    LogInScreen(
+        onBackClick = onBackClick
+    )
+}
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LogInScreen(onBack: () -> Unit) {
+fun LogInScreen(
+    onBackClick: () -> Unit
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -67,7 +81,7 @@ fun LogInScreen(onBack: () -> Unit) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onBack() }) {
+                    IconButton(onClick = { onBackClick() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
@@ -181,6 +195,6 @@ fun LogInScreen(onBack: () -> Unit) {
 @Composable
 fun LogInScreenPreview() {
     LogInScreen(
-        onBack = {}
+        onBackClick = {}
     )
 }

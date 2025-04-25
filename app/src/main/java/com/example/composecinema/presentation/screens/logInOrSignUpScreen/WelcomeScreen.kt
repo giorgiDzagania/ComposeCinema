@@ -27,13 +27,27 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import com.example.composecinema.R
+import com.example.composecinema.presentation.navigation.NavDest
 import com.example.composecinema.presentation.ui.theme.BlueAccent
 import com.example.composecinema.presentation.ui.theme.Dark
 import com.example.composecinema.presentation.ui.theme.White
 
+
+fun NavGraphBuilder.welcomeDestination(
+    onLoginClick: () -> Unit,
+    onSignUpClick: () -> Unit
+) = composable<NavDest.Welcome> {
+    WelcomeScreen(
+        onSignUpClick = onSignUpClick,
+        onLoginClick = onLoginClick
+    )
+}
+
 @Composable
-fun LogInOrSignUpScreen(
+fun WelcomeScreen(
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -156,7 +170,7 @@ fun LogInOrSignUpScreen(
 @Preview(showBackground = true)
 @Composable
 fun LogInOrSignUpScreenPreview() {
-    LogInOrSignUpScreen(
+    WelcomeScreen(
         onSignUpClick = {},
         onLoginClick = {}
     )
