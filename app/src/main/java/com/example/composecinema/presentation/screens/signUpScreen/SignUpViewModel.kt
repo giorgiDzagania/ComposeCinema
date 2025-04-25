@@ -6,6 +6,7 @@ import com.example.composecinema.core.OperationStatus
 import com.example.composecinema.domain.useCases.AuthUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(

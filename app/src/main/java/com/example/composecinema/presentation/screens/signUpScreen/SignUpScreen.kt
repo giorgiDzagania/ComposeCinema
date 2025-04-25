@@ -141,7 +141,7 @@ fun SignUpScreen(
                         )
                     )
                     OutlinedTextField(
-                        value = email,
+                        value = viewState.name,
                         onValueChange = { email = it },
                         label = {
                             Text(

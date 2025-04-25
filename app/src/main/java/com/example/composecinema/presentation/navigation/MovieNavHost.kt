@@ -96,7 +96,7 @@ fun MovieNavHost() {
             val viewModel: SignUpViewModel = koinViewModel()
             val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
             SignUpScreen(
-                viewState = viewState,
+                viewState = viewState, 
                 onBackPress = { navController.popBackStack() },
                 onRegisterUser = { name, email, password ->
                     viewModel.signUpUser(name, email, password)
