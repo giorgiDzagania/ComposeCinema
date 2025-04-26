@@ -32,13 +32,11 @@ class SignUpViewModel(
             val name = _viewState.value.name
             val email = _viewState.value.email
             val password = _viewState.value.password
-
             val inputError = validateInputs(name, email, password)
             if (inputError != null) {
                 _viewState.value = _viewState.value.copy(error = inputError)
                 return@launch
             }
-
             _viewState.value = _viewState.value.copy(isLoading = true, error = null)
 
             when (val result = authUseCase(name, email, password)) {
@@ -57,7 +55,6 @@ class SignUpViewModel(
 
                 }
             }
-
             // _viewState.value = _viewState.value.copy(isLoading = false, error = null)
         }
     }

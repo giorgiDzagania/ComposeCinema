@@ -75,5 +75,5 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
 
-//    implementation(libs.accompanist.navigation.animation)
+    //implementation(libs.accompanist.navigation.animation)
 }

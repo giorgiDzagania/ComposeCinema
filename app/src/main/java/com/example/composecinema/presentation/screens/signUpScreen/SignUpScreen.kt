@@ -26,15 +26,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Gray
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -54,14 +49,14 @@ import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.signUpDestination(
     onBackClick: () -> Unit,
-    onSignUpSuccess: ()-> Unit
+    onSignUpSuccess: () -> Unit
 ) = composable<NavDest.SignUp> {
 
     val viewModel = koinViewModel<SignUpViewModel>()
     val viewState = viewModel.viewState.collectAsState().value
 
     LaunchedEffect(viewState.isSignedUp) {
-        if(viewState.isSignedUp){
+        if (viewState.isSignedUp) {
             onSignUpSuccess()
         }
     }
@@ -84,10 +79,10 @@ fun SignUpScreen(
     //   onNavigateNext: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-   /* var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var didRegister by remember { mutableStateOf(false) }*/
+    /* var name by remember { mutableStateOf("") }
+     var email by remember { mutableStateOf("") }
+     var password by remember { mutableStateOf("") }
+     var didRegister by remember { mutableStateOf(false) }*/
 
     /* if (didRegister && !viewState.isLoading && viewState.error == null) {
          onNavigateNext.invoke()
