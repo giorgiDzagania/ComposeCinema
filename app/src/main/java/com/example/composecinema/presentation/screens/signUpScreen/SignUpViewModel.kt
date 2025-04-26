@@ -1,6 +1,5 @@
 package com.example.composecinema.presentation.screens.signUpScreen
 
-import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composecinema.core.OperationStatus
