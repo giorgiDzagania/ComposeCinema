@@ -10,16 +10,12 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.composecinema.presentation.screens.logInOrSignUpScreen.LogInOrSignUpScreen
-import com.example.composecinema.presentation.screens.logInScreen.LogInScreen
-import com.example.composecinema.presentation.screens.mainPage.MainPageScreen
-import com.example.composecinema.presentation.screens.signUpScreen.SignUpScreen
-import com.example.composecinema.presentation.screens.signUpScreen.SignUpViewModel
-import org.koin.androidx.compose.koinViewModel
+import com.example.composecinema.presentation.screens.logInOrSignUpScreen.welcomeDestination
+import com.example.composecinema.presentation.screens.logInScreen.loginDestination
+import com.example.composecinema.presentation.screens.mainPage.mainPageDestination
+import com.example.composecinema.presentation.screens.signUpScreen.signUpDestination
 
 @Composable
 fun MovieNavHost() {
@@ -27,7 +23,7 @@ fun MovieNavHost() {
 
     NavHost(
         navController = navController,
-        startDestination = NavDestinations.LOGIN_OR_SIGN_UP,
+        startDestination = NavDest.Welcome,
         enterTransition = {
             slideInVertically(
                 animationSpec = spring(
@@ -77,8 +73,27 @@ fun MovieNavHost() {
             )
         }
     ) {
-        composable(NavDestinations.LOGIN_OR_SIGN_UP) {
-            LogInOrSignUpScreen(
+
+
+        welcomeDestination(
+            onLoginClick = { navController.navigate(NavDest.Login) },
+            onSignUpClick = { navController.navigate(NavDest.SignUp) }
+        )
+
+        loginDestination(
+            onBackClick = { navController.navigateUp() }
+        )
+
+        signUpDestination(
+            onBackClick = { navController.navigateUp() },
+            onSignUpSuccess = { navController.navigate(NavDest.Main) }
+        )
+
+        mainPageDestination()
+
+
+        /*composable(NavDestinations.LOGIN_OR_SIGN_UP) {
+            WelcomeScreen(
                 onLoginClick = {
                     navController.navigate(NavDestinations.LOGIN)
                 },
@@ -86,29 +101,27 @@ fun MovieNavHost() {
                     navController.navigate(NavDestinations.SIGNUP)
                 }
             )
-        }
+        }*/
 
-        composable(NavDestinations.LOGIN) {
+        /*composable(NavDestinations.LOGIN) {
             LogInScreen(onBack = { navController.popBackStack() })
-        }
+        }*/
 
-        composable(NavDestinations.SIGNUP) {
+        /*composable(NavDestinations.SIGNUP) {
             val viewModel: SignUpViewModel = koinViewModel()
             val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
             SignUpScreen(
-                viewState = viewState, 
-                onBackPress = { navController.popBackStack() },
-                onRegisterUser = { name, email, password ->
-                    viewModel.signUpUser(name, email, password)
-                },
+                viewState = viewState,
+                onBackClick = { navController.popBackStack() },
+                onRegisterUser = {},
                 onNavigateNext = {
                     navController.navigate(NavDestinations.MAIN)
                 }
             )
-        }
+        }*/
 
-        composable(NavDestinations.MAIN) {
+        /*composable(NavDestinations.MAIN) {
             MainPageScreen()
-        }
+        }*/
     }
 }

@@ -1,5 +1,6 @@
 package com.example.composecinema.presentation.screens.signUpScreen
 
+import android.util.Log.d
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +24,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,36 +34,65 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Gray
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import com.example.composecinema.R
+import com.example.composecinema.presentation.navigation.NavDest
 import com.example.composecinema.presentation.ui.theme.BlueAccent
 import com.example.composecinema.presentation.ui.theme.Dark
 import com.example.composecinema.presentation.ui.theme.Green
 import com.example.composecinema.presentation.ui.theme.White
+import org.koin.androidx.compose.koinViewModel
+
+
+fun NavGraphBuilder.signUpDestination(
+    onBackClick: () -> Unit,
+    onSignUpSuccess: ()-> Unit
+) = composable<NavDest.SignUp> {
+
+    val viewModel = koinViewModel<SignUpViewModel>()
+    val viewState = viewModel.viewState.collectAsState().value
+
+    LaunchedEffect(viewState.isSignedUp) {
+        if(viewState.isSignedUp){
+            onSignUpSuccess()
+        }
+    }
+
+    SignUpScreen(
+        viewState = viewState,
+        onValueChange = viewModel::updateFields,
+        onClickSignUp = viewModel::signUpUser,
+        onBackClick = onBackClick,
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(
     viewState: SignUpState,
-    onBackPress: () -> Unit = {},
-    onRegisterUser: (name: String, email: String, password: String) -> Unit,
-    onNavigateNext: () -> Unit = {},
+    onValueChange: (SignUpFields, String) -> Unit,
+    onBackClick: () -> Unit = {},
+    onClickSignUp: () -> Unit = {},
+    //   onNavigateNext: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var name by remember { mutableStateOf("") }
+   /* var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var didRegister by remember { mutableStateOf(false) }
+    var didRegister by remember { mutableStateOf(false) }*/
 
-    if (didRegister && !viewState.isLoading && viewState.error == null) {
-        onNavigateNext.invoke()
-        didRegister = false
-    }
+    /* if (didRegister && !viewState.isLoading && viewState.error == null) {
+         onNavigateNext.invoke()
+         didRegister = false
+     }*/
 
     Scaffold(
         containerColor = Dark,
@@ -68,7 +100,7 @@ fun SignUpScreen(
             CenterAlignedTopAppBar(
                 title = { Text(text = "Sign Up") },
                 navigationIcon = {
-                    IconButton(onClick = { onBackPress.invoke() }) {
+                    IconButton(onClick = { onBackClick.invoke() }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_arrow_back),
                             contentDescription = null
@@ -115,8 +147,8 @@ fun SignUpScreen(
                 }
                 Column {
                     OutlinedTextField(
-                        value = name,
-                        onValueChange = { name = it },
+                        value = viewState.name,
+                        onValueChange = { onValueChange(SignUpFields.NAME, it) },
                         label = {
                             Text(
                                 text = "Full Name",
@@ -141,8 +173,8 @@ fun SignUpScreen(
                         )
                     )
                     OutlinedTextField(
-                        value = viewState.name,
-                        onValueChange = { email = it },
+                        value = viewState.email,
+                        onValueChange = { onValueChange(SignUpFields.EMAIL, it) },
                         label = {
                             Text(
                                 text = "Email Address",
@@ -168,8 +200,8 @@ fun SignUpScreen(
                     )
 
                     OutlinedTextField(
-                        value = password,
-                        onValueChange = { password = it },
+                        value = viewState.password,
+                        onValueChange = { onValueChange(SignUpFields.PASSWORD, it) },
                         label = {
                             Text(
                                 text = "Password",
@@ -197,8 +229,7 @@ fun SignUpScreen(
 
                 Button(
                     onClick = {
-                        onRegisterUser(name, email, password)
-                        didRegister = true
+                        onClickSignUp()
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = BlueAccent,
@@ -217,6 +248,7 @@ fun SignUpScreen(
                         text = "Sign up",
                     )
                 }
+
                 if (viewState.isLoading) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
@@ -228,11 +260,13 @@ fun SignUpScreen(
                         )
                     }
                 }
-                viewState.error?.let { err ->
+
+                viewState.error?.let { error ->
+                    d("MyLog", "Error from viewState: $error")
                     Text(
-                        err,
+                        text = error,
                         color = Color.Red,
-                        modifier = Modifier.padding(top = 8.dp)
+                        modifier = Modifier.padding(16.dp)
                     )
                 }
 
@@ -246,8 +280,9 @@ fun SignUpScreen(
 fun SignUpScreenPreview() {
     SignUpScreen(
         viewState = SignUpState(),
-        onBackPress = {},
-        onRegisterUser = { _, _, _ -> },
-        onNavigateNext = {}
+        onValueChange = { _, _ -> },
+        onBackClick = {},
+        onClickSignUp = {},
+        // onNavigateNext = {}
     )
 }
