@@ -33,7 +33,6 @@ class AuthRepositoryImpl(
                 .document(user.uid)
                 .set(userMap)
                 .await()
-
             user
         }
     }

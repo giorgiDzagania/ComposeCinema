@@ -22,7 +22,6 @@ fun NavGraphBuilder.mainPageDestination(
 fun MainPageScreen(
     modifier: Modifier = Modifier
 ) {
-
     Scaffold { valuePadding ->
         Text(
             "Main Page",
@@ -30,7 +29,6 @@ fun MainPageScreen(
         )
     }
 }
-
 
 @Composable
 @Preview(showBackground = true)

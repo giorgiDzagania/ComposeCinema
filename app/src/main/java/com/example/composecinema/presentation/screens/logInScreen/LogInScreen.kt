@@ -57,7 +57,6 @@ fun NavGraphBuilder.loginDestination(
     )
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogInScreen(
@@ -67,37 +66,31 @@ fun LogInScreen(
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
 
-    Scaffold(
-        containerColor = Dark,
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Login",
-                        fontFamily = FontFamily.SansSerif,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        letterSpacing = 2.sp
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { onBackClick() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color.White
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Transparent,
-                    navigationIconContentColor = Color.White,
-                    titleContentColor = Color.White,
-                    actionIconContentColor = Color.White
-                )
+    Scaffold(containerColor = Dark, topBar = {
+        CenterAlignedTopAppBar(title = {
+            Text(
+                text = "Login",
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                letterSpacing = 2.sp
             )
-        }
-    ) { paddingValues ->
+        }, navigationIcon = {
+            IconButton(onClick = { onBackClick() }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.White
+                )
+            }
+        }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = Transparent,
+            navigationIconContentColor = Color.White,
+            titleContentColor = Color.White,
+            actionIconContentColor = Color.White
+        )
+        )
+    }) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -123,14 +116,12 @@ fun LogInScreen(
                     onValueChange = { email = it },
                     label = {
                         Text(
-                            text = "Enter email",
-                            color = Color.White.copy(alpha = 0.7f)
+                            text = "Enter email", color = Color.White.copy(alpha = 0.7f)
                         )
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next
+                        keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
                     ),
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
@@ -150,25 +141,21 @@ fun LogInScreen(
                     onValueChange = { password = it },
                     label = {
                         Text(
-                            text = "Password",
-                            color = Color.White.copy(alpha = 0.7f)
+                            text = "Password", color = Color.White.copy(alpha = 0.7f)
                         )
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
+                        keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
                     ),
                     visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
-                        Text(
-                            text = if (isPasswordVisible) "👁️" else "🔒",
+                        Text(text = if (isPasswordVisible) "👁️" else "🔒",
                             color = Color.Cyan,
                             fontSize = 18.sp,
                             modifier = Modifier
                                 .clickable { isPasswordVisible = !isPasswordVisible }
-                                .padding(4.dp)
-                        )
+                                .padding(4.dp))
                     },
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
@@ -182,19 +169,13 @@ fun LogInScreen(
                         unfocusedTextColor = Color.Green
                     )
                 )
-
             }
-
-
         }
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun LogInScreenPreview() {
-    LogInScreen(
-        onBackClick = {}
-    )
+    LogInScreen(onBackClick = {})
 }
