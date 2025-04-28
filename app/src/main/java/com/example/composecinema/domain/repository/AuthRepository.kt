@@ -5,4 +5,5 @@ import com.google.firebase.auth.FirebaseUser
 
 interface AuthRepository {
     suspend fun signUp(name: String, email: String, password: String): OperationStatus<FirebaseUser>
+    suspend fun signIn(email: String, password: String) : OperationStatus<FirebaseUser>
 }

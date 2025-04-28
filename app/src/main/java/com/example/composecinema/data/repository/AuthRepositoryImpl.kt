@@ -33,8 +33,14 @@ class AuthRepositoryImpl(
                 .document(user.uid)
                 .set(userMap)
                 .await()
-
             user
+        }
+    }
+
+    override suspend fun signIn(email: String, password: String): OperationStatus<FirebaseUser> {
+        return FirebaseCallHelper.safeFirebaseCall {
+            val authResult = auth.signInWithEmailAndPassword(email, password).await()
+            authResult.user!!
         }
     }
 }

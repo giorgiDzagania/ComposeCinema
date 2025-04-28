@@ -1,17 +1,15 @@
-package com.example.composecinema.domain.useCases
+package com.example.composecinema.domain.useCases.auth_usecase
 
 import com.example.composecinema.core.OperationStatus
 import com.example.composecinema.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseUser
 
-class AuthUseCase(
+class SignInUseCase(
     private val authRepository: AuthRepository
 ) {
     suspend operator fun invoke(
-        name: String,
-        email: String,
-        password: String
+        email: String, password: String
     ): OperationStatus<FirebaseUser> {
-        return authRepository.signUp(name, email, password)
+        return authRepository.signIn(email, password)
     }
 }

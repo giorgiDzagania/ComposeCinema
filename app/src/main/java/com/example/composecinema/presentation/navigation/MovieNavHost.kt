@@ -12,10 +12,10 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.composecinema.presentation.screens.logInOrSignUpScreen.welcomeDestination
 import com.example.composecinema.presentation.screens.logInScreen.loginDestination
 import com.example.composecinema.presentation.screens.mainPage.mainPageDestination
 import com.example.composecinema.presentation.screens.signUpScreen.signUpDestination
+import com.example.composecinema.presentation.screens.welcome_screen.welcomeDestination
 
 @Composable
 fun MovieNavHost() {
@@ -81,7 +81,8 @@ fun MovieNavHost() {
         )
 
         loginDestination(
-            onBackClick = { navController.navigateUp() }
+            onBackClick = { navController.navigateUp() },
+            onLoginSuccess = { navController.navigate(NavDest.Main) }
         )
 
         signUpDestination(

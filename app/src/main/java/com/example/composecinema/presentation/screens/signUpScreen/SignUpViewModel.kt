@@ -1,17 +1,16 @@
 package com.example.composecinema.presentation.screens.signUpScreen
 
-import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composecinema.core.OperationStatus
-import com.example.composecinema.domain.useCases.AuthUseCase
+import com.example.composecinema.domain.useCases.auth_usecase.SignUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
-    private val authUseCase: AuthUseCase
+    private val signUseCase: SignUseCase
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(SignUpState())
@@ -39,9 +38,9 @@ class SignUpViewModel(
                 return@launch
             }
 
-            _viewState.value = _viewState.value.copy(isLoading = true, error = null)
+                    _viewState.value = _viewState.value.copy(isLoading = true, error = null)
 
-            when (val result = authUseCase(name, email, password)) {
+                when (val result = signUseCase(name, email, password)) {
                 is OperationStatus.Success -> {
                     _viewState.value = _viewState.value.copy(
                         isLoading = false,

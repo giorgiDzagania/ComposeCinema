@@ -262,7 +262,6 @@ fun SignUpScreen(
                 }
 
                 viewState.error?.let { error ->
-                    d("MyLog", "Error from viewState: $error")
                     Text(
                         text = error,
                         color = Color.Red,

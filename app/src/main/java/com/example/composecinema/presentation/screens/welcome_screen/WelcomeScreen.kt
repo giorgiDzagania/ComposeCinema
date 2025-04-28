@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.screens.logInOrSignUpScreen
+package com.example.composecinema.presentation.screens.welcome_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

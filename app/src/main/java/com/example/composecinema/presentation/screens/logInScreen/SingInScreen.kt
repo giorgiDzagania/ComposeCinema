@@ -1,5 +1,6 @@
 package com.example.composecinema.presentation.screens.logInScreen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,12 +8,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,10 +27,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,24 +51,45 @@ import com.example.composecinema.presentation.ui.theme.BlueAccent
 import com.example.composecinema.presentation.ui.theme.Dark
 import com.example.composecinema.presentation.ui.theme.Green
 import com.example.composecinema.presentation.ui.theme.White
+import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.loginDestination(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onLoginSuccess: () -> Unit,
 ) = composable<NavDest.Login> {
+
+    BackHandler {
+
+    }
+    val viewModel = koinViewModel<SignInViewModel>()
+    val viewState = viewModel.viewState.collectAsState().value
+
+    LaunchedEffect(viewState.isSignedIn) {
+        if (viewState.isSignedIn) {
+            onLoginSuccess()
+        }
+    }
+
     LogInScreen(
-        onBackClick = onBackClick
+        viewState = viewState,
+        onBackClick = onBackClick,
+        onClickSingIn = viewModel::signIn,
+        onValueChange = viewModel::updateFields,
+        onTogglePasswordVisibility = viewModel::togglePasswordVisibility
     )
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogInScreen(
-    onBackClick: () -> Unit
+    viewState: SignInState,
+    onBackClick: () -> Unit,
+    onClickSingIn: () -> Unit,
+    onValueChange: (SignInFields, String) -> Unit,
+    onTogglePasswordVisibility: () -> Unit
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var isPasswordVisible by remember { mutableStateOf(false) }
+
+    // var isPasswordVisible by remember { mutableStateOf(false) }
 
     Scaffold(
         containerColor = Dark,
@@ -119,8 +143,8 @@ fun LogInScreen(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = viewState.email,
+                    onValueChange = { onValueChange(SignInFields.EMAIL, it) },
                     label = {
                         Text(
                             text = "Enter email",
@@ -146,8 +170,8 @@ fun LogInScreen(
                 )
 
                 OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = viewState.password,
+                    onValueChange = { onValueChange(SignInFields.PASSWORD, it) },
                     label = {
                         Text(
                             text = "Password",
@@ -159,14 +183,14 @@ fun LogInScreen(
                         keyboardType = KeyboardType.Password,
                         imeAction = ImeAction.Done
                     ),
-                    visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    visualTransformation = if (viewState.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         Text(
-                            text = if (isPasswordVisible) "👁️" else "🔒",
+                            text = if (viewState.isPasswordVisible) "👁️" else "🔒",
                             color = Color.Cyan,
                             fontSize = 18.sp,
                             modifier = Modifier
-                                .clickable { isPasswordVisible = !isPasswordVisible }
+                                .clickable { onTogglePasswordVisibility() }
                                 .padding(4.dp)
                         )
                     },
@@ -183,9 +207,49 @@ fun LogInScreen(
                     )
                 )
 
+
+                Button(
+                    onClick = {
+                        onClickSingIn()
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = BlueAccent,
+                        contentColor = White
+                    ),
+                    elevation = ButtonDefaults.buttonElevation(
+                        defaultElevation = 4.dp,
+                        pressedElevation = 12.dp
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 43.dp, horizontal = 16.dp)
+                        .height(56.dp)
+                ) {
+                    Text(
+                        text = "Log In",
+                    )
+                }
+
+                if (viewState.isLoading) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        CircularProgressIndicator(
+                            color = BlueAccent,
+                        )
+                    }
+                }
+
+                viewState.error?.let { error ->
+                    Text(
+                        text = error,
+                        color = Color.Red,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
             }
-
-
         }
     }
 }
@@ -194,7 +258,9 @@ fun LogInScreen(
 @Preview(showBackground = true)
 @Composable
 fun LogInScreenPreview() {
-    LogInScreen(
-        onBackClick = {}
-    )
+    /* LogInScreen(
+         viewState = LoginState(),
+         onValueChange = {},
+         onBackClick = {}
+     )*/
 }
