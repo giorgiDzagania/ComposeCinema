@@ -23,4 +23,7 @@ sealed interface NavDest{
 
     @Serializable
     data object Main : NavDest
+
+    @Serializable
+    data object Search : NavDest
 }

@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.screens.signUpScreen
+package com.example.composecinema.presentation.screens.signScreen
 
 import android.util.Log.d
 import androidx.compose.foundation.background
@@ -36,6 +36,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.composecinema.R
@@ -53,7 +54,7 @@ fun NavGraphBuilder.signUpDestination(
 ) = composable<NavDest.SignUp> {
 
     val viewModel = koinViewModel<SignUpViewModel>()
-    val viewState = viewModel.viewState.collectAsState().value
+    val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(viewState.isSignedUp) {
         if (viewState.isSignedUp) {
@@ -76,18 +77,8 @@ fun SignUpScreen(
     onValueChange: (SignUpFields, String) -> Unit,
     onBackClick: () -> Unit = {},
     onClickSignUp: () -> Unit = {},
-    //   onNavigateNext: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    /* var name by remember { mutableStateOf("") }
-     var email by remember { mutableStateOf("") }
-     var password by remember { mutableStateOf("") }
-     var didRegister by remember { mutableStateOf(false) }*/
-
-    /* if (didRegister && !viewState.isLoading && viewState.error == null) {
-         onNavigateNext.invoke()
-         didRegister = false
-     }*/
 
     Scaffold(
         containerColor = Dark,
@@ -278,6 +269,5 @@ fun SignUpScreenPreview() {
         onValueChange = { _, _ -> },
         onBackClick = {},
         onClickSignUp = {},
-        // onNavigateNext = {}
     )
 }

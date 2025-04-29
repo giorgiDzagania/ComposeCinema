@@ -1,4 +1,4 @@
-package com.example.composecinema.domain.useCases
+package com.example.composecinema.domain.useCases.authenticationUseCases
 
 import com.example.composecinema.core.OperationStatus
 import com.example.composecinema.domain.repository.AuthRepository
