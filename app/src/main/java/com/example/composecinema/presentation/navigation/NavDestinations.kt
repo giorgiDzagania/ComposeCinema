@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 /*object NavDestinations {
     const val LOGIN_OR_SIGN_UP = "login_or_sign_up"
-    const val LOGIN = "login"
+    const val LOGIN = "signIn"
     const val SIGNUP = "sign_up"
     const val MAIN = "main_page"
 }*/
