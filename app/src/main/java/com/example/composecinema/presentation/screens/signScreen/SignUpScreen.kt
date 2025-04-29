@@ -61,7 +61,6 @@ fun NavGraphBuilder.signUpDestination(
             onSignUpSuccess()
         }
     }
-
     SignUpScreen(
         viewState = viewState,
         onValueChange = viewModel::updateFields,
