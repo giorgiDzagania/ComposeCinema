@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.screens.signUpScreen
+package com.example.composecinema.presentation.screens.signScreen
 
 data class SignUpState(
     var name: String = "",

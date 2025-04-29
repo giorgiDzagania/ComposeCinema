@@ -1,9 +1,9 @@
-package com.example.composecinema.presentation.screens.signUpScreen
+package com.example.composecinema.presentation.screens.signScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composecinema.core.OperationStatus
-import com.example.composecinema.domain.useCases.AuthUseCase
+import com.example.composecinema.domain.useCases.authenticationUseCases.AuthUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -54,7 +54,7 @@ class SignUpViewModel(
 
                 }
             }
-            // _viewState.value = _viewState.value.copy(isLoading = false, error = null)
+//             _viewState.value = _viewState.value.copy(isLoading = false, error = null)
         }
     }
 
