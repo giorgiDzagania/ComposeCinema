@@ -43,4 +43,20 @@ class AuthRepositoryImpl(
             resultUser.user!!
         }
     }
+
+    override suspend fun getUsername(): OperationStatus<String> {
+        return FirebaseCallHelper.safeFirebaseCall {
+            val userId = auth.currentUser?.uid
+                ?: throw IllegalStateException("User not authenticated")
+
+            val document = firestore.collection("users").document(userId).get().await()
+
+            if (document.exists()) {
+                document.getString("name") ?: throw IllegalStateException("Username not found")
+            } else {
+                throw IllegalStateException("User document not found")
+            }
+        }
+    }
+
 }
