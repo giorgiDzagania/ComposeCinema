@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">ComposeCinema</string>
+    <string name="app_name">ComposeCinema</string>h
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="favorites">Favorites</string>
+    <string name="profile">Profile</string>
 </resources>

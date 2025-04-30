@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.koin.androidx.compose.navigation)
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+    implementation("androidx.compose.material3:material3:1.2.1")
 
     //implementation(libs.accompanist.navigation.animation)
 }
