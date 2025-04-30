@@ -12,11 +12,11 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.composecinema.presentation.screens.auth_screens.welcome_screen.welcomeDestination
 import com.example.composecinema.presentation.screens.auth_screens.log_In_screen.loginDestination
-import com.example.composecinema.presentation.screens.core_screens.search_screen.searchScreenDestination
 import com.example.composecinema.presentation.screens.auth_screens.sign_up_screen.signUpDestination
 import com.example.composecinema.presentation.screens.core_screens.home_screen.homePageDestination
+import com.example.composecinema.presentation.screens.core_screens.search_screen.searchScreenDestination
+import welcomeDestination
 
 @Composable
 fun MovieNavHost() {
