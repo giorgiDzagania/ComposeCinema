@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.screens.core_screens.home_page.components
+package com.example.composecinema.presentation.screens.core_screens.home_screen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

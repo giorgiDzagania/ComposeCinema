@@ -16,7 +16,7 @@ import com.example.composecinema.presentation.screens.auth_screens.welcome_scree
 import com.example.composecinema.presentation.screens.auth_screens.log_In_screen.loginDestination
 import com.example.composecinema.presentation.screens.core_screens.search_screen.searchScreenDestination
 import com.example.composecinema.presentation.screens.auth_screens.sign_up_screen.signUpDestination
-import com.example.composecinema.presentation.screens.core_screens.home_page.homePageDestination
+import com.example.composecinema.presentation.screens.core_screens.home_screen.homePageDestination
 
 @Composable
 fun MovieNavHost() {

@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.screens.core_screens.home_page
+package com.example.composecinema.presentation.screens.core_screens.home_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,9 +18,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.composecinema.presentation.navigation.NavDest
-import com.example.composecinema.presentation.screens.core_screens.home_page.components.GreetingHeader
-import com.example.composecinema.presentation.screens.core_screens.home_page.components.SearchBar
-import com.example.composecinema.presentation.screens.core_screens.home_page.components.UpcomingMovies
+import com.example.composecinema.presentation.screens.core_screens.home_screen.components.GreetingHeader
+import com.example.composecinema.presentation.screens.core_screens.home_screen.components.SearchBar
+import com.example.composecinema.presentation.screens.core_screens.home_screen.components.UpcomingMovies
 import com.example.composecinema.presentation.ui.theme.Dark
 import org.koin.androidx.compose.koinViewModel
 
@@ -28,19 +28,19 @@ fun NavGraphBuilder.homePageDestination(
     navigateOnSearchScreen: () -> Unit
 ) = composable<NavDest.Main> {
 
-    val viewModel = koinViewModel<HomePageViewModel>()
+    val viewModel = koinViewModel<HomeViewModel>()
     val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(viewState.navigateToSearchScreen) {
-        viewModel.onEvent(HomePageEvent.LoadUser)
+        viewModel.onEvent(HomeEvent.LoadUser)
 
         if (viewState.navigateToSearchScreen) {
             navigateOnSearchScreen()
-            viewModel.onEvent(HomePageEvent.ResetNavigation)
+            viewModel.onEvent(HomeEvent.ResetNavigation)
         }
     }
 
-    HomePageScreen(
+    HomeScreen(
         viewState = viewState,
         onEvent = { action -> viewModel.onEvent(action) }
     )
@@ -48,9 +48,9 @@ fun NavGraphBuilder.homePageDestination(
 }
 
 @Composable
-fun HomePageScreen(
-    viewState: HomePageState,
-    onEvent: (HomePageEvent) -> Unit,
+fun HomeScreen(
+    viewState: HomeState,
+    onEvent: (HomeEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -85,7 +85,7 @@ fun HomePageScreen(
                 }
                 SearchBar(
                     modifier = modifier.padding(vertical = 16.dp),
-                    onEvent = { onEvent(HomePageEvent.OnSearchClick) }
+                    onEvent = { onEvent(HomeEvent.OnSearchClick) }
                 )
                 UpcomingMovies()
             }
@@ -98,8 +98,8 @@ fun HomePageScreen(
 @Composable
 @Preview(showBackground = true)
 fun MainPageScreenPreview() {
-    HomePageScreen(
-        viewState = HomePageState(),
+    HomeScreen(
+        viewState = HomeState(),
         onEvent = {}
     )
 }

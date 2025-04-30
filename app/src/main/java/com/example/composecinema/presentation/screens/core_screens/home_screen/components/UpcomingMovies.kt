@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.screens.core_screens.home_page.components
+package com.example.composecinema.presentation.screens.core_screens.home_screen.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.screens.core_screens.home_page.components
+package com.example.composecinema.presentation.screens.core_screens.home_screen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,12 +13,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.composecinema.presentation.screens.core_screens.home_page.HomePageEvent
+import com.example.composecinema.presentation.screens.core_screens.home_screen.HomeEvent
 
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    onEvent: (HomePageEvent) -> Unit
+    onEvent: (HomeEvent) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -27,7 +27,7 @@ fun SearchBar(
                 color = Color.DarkGray.copy(alpha = 0.3f),
                 shape = MaterialTheme.shapes.small
             )
-            .clickable { onEvent(HomePageEvent.OnSearchClick) }
+            .clickable { onEvent(HomeEvent.OnSearchClick) }
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Text(
