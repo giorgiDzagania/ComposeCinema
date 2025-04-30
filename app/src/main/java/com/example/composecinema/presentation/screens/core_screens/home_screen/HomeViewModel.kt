@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.screens.core_screens.home_page
+package com.example.composecinema.presentation.screens.core_screens.home_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,24 +8,24 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class HomePageViewModel(
+class HomeViewModel(
     private val getUserNameUseCase: GetUserNameUseCase
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow((HomePageState()))
+    private val _viewState = MutableStateFlow((HomeState()))
     val viewState = _viewState.asStateFlow()
 
-    fun onEvent(event: HomePageEvent) {
+    fun onEvent(event: HomeEvent) {
         when (event) {
-            HomePageEvent.OnSearchClick -> {
+            HomeEvent.OnSearchClick -> {
                 _viewState.value = _viewState.value.copy(navigateToSearchScreen = true)
             }
 
-            is HomePageEvent.LoadUser -> {
+            is HomeEvent.LoadUser -> {
                 getUserName()
             }
 
-            HomePageEvent.ResetNavigation -> {
+            HomeEvent.ResetNavigation -> {
                 _viewState.value= _viewState.value.copy(navigateToSearchScreen = false)
             }
         }
