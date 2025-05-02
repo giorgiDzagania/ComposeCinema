@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.screens.core_screens.search_screen
+package com.example.composecinema.presentation.screens.core_screens.profile_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,14 +14,14 @@ import androidx.navigation.compose.composable
 import com.example.composecinema.presentation.bottom_navigation.BottomNavigationBar
 import com.example.composecinema.presentation.navigation_graph.NavDest
 
-fun NavGraphBuilder.searchScreenDestination(
+fun NavGraphBuilder.profileScreenDestination(
     navController: NavHostController
-) = composable<NavDest.Search> {
+) = composable<NavDest.Profile> {
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) }
     ) { paddingValues ->
-        SearchScreen(
+        ProfileScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -31,20 +31,20 @@ fun NavGraphBuilder.searchScreenDestination(
 }
 
 @Composable
-fun SearchScreen(
+fun ProfileScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
         Text(
-            "Search Screen"
+            "Profile Screen"
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SearchScreenPreview() {
-    SearchScreen()
+fun ProfileScreenPreview() {
+    ProfileScreen()
 }

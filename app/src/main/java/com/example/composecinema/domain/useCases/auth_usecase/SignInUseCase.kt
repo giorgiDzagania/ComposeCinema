@@ -8,8 +8,8 @@ class SignInUseCase(
     private val authRepository: AuthRepository
 ) {
     suspend operator fun invoke(
-        email: String, password: String
+        name: String, email: String, password: String
     ): OperationStatus<FirebaseUser> {
-        return authRepository.signIn(email, password)
+        return authRepository.signUp(name = name, email = email, password = password)
     }
 }

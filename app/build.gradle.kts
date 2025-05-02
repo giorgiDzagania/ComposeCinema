@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.androidx.material3.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -67,14 +68,15 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
-    implementation(libs.androidx.navigation.compose)
-
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.androidx.compose.navigation)
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
-    implementation("androidx.compose.material3:material3:1.2.1")
-
     //implementation(libs.accompanist.navigation.animation)
+    implementation (libs.androidx.material)
+    implementation (libs.androidx.material3.v100)
+
+    implementation (libs.androidx.navigation.compose)
+
 }

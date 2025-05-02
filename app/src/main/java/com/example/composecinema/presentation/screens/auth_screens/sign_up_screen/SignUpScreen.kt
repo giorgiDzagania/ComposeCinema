@@ -1,6 +1,5 @@
 package com.example.composecinema.presentation.screens.auth_screens.sign_up_screen
 
-import android.util.Log.d
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.composecinema.R
-import com.example.composecinema.presentation.navigation.NavDest
+import com.example.composecinema.presentation.navigation_graph.NavDest
 import com.example.composecinema.presentation.ui.theme.BlueAccent
 import com.example.composecinema.presentation.ui.theme.Dark
 import com.example.composecinema.presentation.ui.theme.Green

@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.navigation
+package com.example.composecinema.presentation.navigation_graph
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -10,17 +10,23 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
+import com.example.composecinema.presentation.bottom_navigation.BottomNavItem
 import com.example.composecinema.presentation.screens.auth_screens.log_In_screen.loginDestination
 import com.example.composecinema.presentation.screens.auth_screens.sign_up_screen.signUpDestination
+import com.example.composecinema.presentation.screens.core_screens.favorites_screen.favoritesScreenDestination
 import com.example.composecinema.presentation.screens.core_screens.home_screen.homePageDestination
+import com.example.composecinema.presentation.screens.core_screens.profile_screen.profileScreenDestination
+import com.example.composecinema.presentation.screens.core_screens.search_screen.SearchScreen
 import com.example.composecinema.presentation.screens.core_screens.search_screen.searchScreenDestination
-import welcomeDestination
+import com.example.composecinema.presentation.screens.welcome_screen.welcomeDestination
+
 
 @Composable
-fun MovieNavHost() {
-    val navController = rememberNavController()
+fun RootNavigationGraph(navController: NavHostController) {
 
     NavHost(
         navController = navController,
@@ -76,30 +82,54 @@ fun MovieNavHost() {
     ) {
 
         welcomeDestination(
-            onLoginClick = { navController.navigate(NavDest.Login) },
-            onSignUpClick = { navController.navigate(NavDest.SignUp) }
-        )
-
-        loginDestination(
-            onBackClick = { navController.navigateUp() },
-            onLogInSuccess = { navController.navigate(NavDest.Main) }
+            onLoginClick = {
+                navController.navigate(NavDest.Login)
+            },
+            onSignUpClick = {
+                navController.navigate(NavDest.SignUp)
+            }
         )
 
         signUpDestination(
-            onBackClick = { navController.popBackStack() },
-            onSignUpSuccess = { navController.navigate(NavDest.Main) }
-        )
-
-        // BoottonNavigatiids()
-
-        homePageDestination(
-            navigateOnSearchScreen = {
-                navController.navigate(NavDest.Search)
+            onBackClick = {
+                navController.popBackStack()
+            },
+            onSignUpSuccess = {
+                navController.navigate(NavDest.Home) {
+                    popUpTo(NavDest.SignUp) { inclusive = true }
+                }
             }
-            // navigateOnSearchScreen = {navController.navigate(NavDest.Search)}
         )
 
-        searchScreenDestination()
+        loginDestination(
+            onBackClick = {
+                navController.popBackStack()
+            },
+            onLogInSuccess = {
+                navController.navigate(NavDest.Home) {
+                    popUpTo(NavDest.Login) { inclusive = true }
+                }
+            }
+        )
+
+        // Core tabs
+        homePageDestination(
+            modifier = Modifier,
+            navigateOnSearchScreen = { navController.navigate(NavDest.Search) },
+            navController = navController
+        )
+
+        searchScreenDestination(
+            navController = navController
+        )
+
+        favoritesScreenDestination(
+            navController = navController
+        )
+
+        profileScreenDestination(
+            navController = navController
+        )
 
     }
 }

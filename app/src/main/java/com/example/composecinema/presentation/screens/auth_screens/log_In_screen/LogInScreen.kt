@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.composecinema.presentation.navigation.NavDest
+import com.example.composecinema.presentation.navigation_graph.NavDest
 import com.example.composecinema.presentation.ui.theme.BlueAccent
 import com.example.composecinema.presentation.ui.theme.Dark
 import com.example.composecinema.presentation.ui.theme.Green

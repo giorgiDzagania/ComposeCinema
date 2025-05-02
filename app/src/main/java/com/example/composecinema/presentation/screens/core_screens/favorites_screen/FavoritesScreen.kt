@@ -1,4 +1,4 @@
-package com.example.composecinema.presentation.screens.core_screens.search_screen
+package com.example.composecinema.presentation.screens.core_screens.favorites_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,20 +8,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.example.composecinema.presentation.bottom_navigation.BottomNavigationBar
 import com.example.composecinema.presentation.navigation_graph.NavDest
 
-fun NavGraphBuilder.searchScreenDestination(
+fun NavGraphBuilder.favoritesScreenDestination(
     navController: NavHostController
-) = composable<NavDest.Search> {
+) = composable<NavDest.Favorite> {
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController = navController) }
     ) { paddingValues ->
-        SearchScreen(
+        FavoritesScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -31,20 +32,20 @@ fun NavGraphBuilder.searchScreenDestination(
 }
 
 @Composable
-fun SearchScreen(
+fun FavoritesScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
         Text(
-            "Search Screen"
+            "Favorites Screen"
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SearchScreenPreview() {
-    SearchScreen()
+fun FavoritesScreenPreview() {
+    FavoritesScreen()
 }

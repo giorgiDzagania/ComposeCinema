@@ -1,9 +1,9 @@
-package com.example.composecinema.presentation.navigation
+package com.example.composecinema.presentation.navigation_graph
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface NavDest{
+sealed interface NavDest {
 
     @Serializable
     data object Welcome : NavDest
@@ -12,13 +12,18 @@ sealed interface NavDest{
     data object Login : NavDest
 
     @Serializable
-    data object SignUp: NavDest
+    data object SignUp : NavDest
 
     // Here should be bottom navigation destination
-
     @Serializable
-    data object Main : NavDest
+    data object Home : NavDest
 
     @Serializable
     data object Search : NavDest
+
+    @Serializable
+    data object Favorite : NavDest
+
+    @Serializable
+    data object Profile : NavDest
 }

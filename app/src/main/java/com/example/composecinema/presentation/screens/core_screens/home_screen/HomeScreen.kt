@@ -16,8 +16,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.example.composecinema.presentation.navigation.NavDest
+import com.example.composecinema.presentation.bottom_navigation.BottomNavigationBar
+import com.example.composecinema.presentation.navigation_graph.NavDest
 import com.example.composecinema.presentation.screens.core_screens.home_screen.components.GreetingHeader
 import com.example.composecinema.presentation.screens.core_screens.home_screen.components.SearchBar
 import com.example.composecinema.presentation.screens.core_screens.home_screen.components.UpcomingMovies
@@ -25,9 +27,10 @@ import com.example.composecinema.presentation.ui.theme.Dark
 import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.homePageDestination(
-    navigateOnSearchScreen: () -> Unit
-) = composable<NavDest.Main> {
-
+    modifier: Modifier = Modifier,
+    navigateOnSearchScreen: () -> Unit,
+    navController: NavHostController
+) = composable<NavDest.Home> {
     val viewModel = koinViewModel<HomeViewModel>()
     val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
 
@@ -40,10 +43,16 @@ fun NavGraphBuilder.homePageDestination(
         }
     }
 
-    HomeScreen(
-        viewState = viewState,
-        onEvent = { action -> viewModel.onEvent(action) }
-    )
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        bottomBar = { BottomNavigationBar(navController) }
+    ) { paddingValue ->
+        HomeScreen(
+            viewState = viewState,
+            onEvent = { action -> viewModel.onEvent(action) },
+            modifier = Modifier.padding(paddingValue)
+        )
+    }
 
 }
 
@@ -51,46 +60,42 @@ fun NavGraphBuilder.homePageDestination(
 fun HomeScreen(
     viewState: HomeState,
     onEvent: (HomeEvent) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Scaffold(
-        modifier = modifier
-            .fillMaxSize(),
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .background(Dark)
-                .padding(12.dp),
-            horizontalAlignment = Alignment.Start
-        ) {
-            if (viewState.loading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
+    modifier: Modifier = Modifier,
 
-            viewState.errorMessage.let {
-                Text(
-                    text = it,
-                    color = Color.Red,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
+    ) {
 
-            if (!viewState.loading) {
-                viewState.userName?.let {
-                    GreetingHeader(userName = it, modifier = modifier)
-                }
-                SearchBar(
-                    modifier = modifier.padding(vertical = 16.dp),
-                    onEvent = { onEvent(HomeEvent.OnSearchClick) }
-                )
-                UpcomingMovies()
-            }
-
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Dark)
+            .padding(12.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        if (viewState.loading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
         }
+
+        viewState.errorMessage.let {
+            Text(
+                text = it,
+                color = Color.Red,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        }
+
+        if (!viewState.loading) {
+            viewState.userName?.let {
+                GreetingHeader(userName = it, modifier = modifier)
+            }
+            SearchBar(
+                modifier = modifier.padding(vertical = 16.dp),
+                onEvent = { onEvent(HomeEvent.OnSearchClick) }
+            )
+            UpcomingMovies()
+        }
+
     }
 }
 

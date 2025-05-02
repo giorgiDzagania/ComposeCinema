@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:app/src/main/java/com/example/composecinema/presentation/screens/welcome_screen/WelcomeScreen.kt
 package com.example.composecinema.presentation.screens.welcome_screen
-========
-package com.example.composecinema.presentation.screens.auth_screens.welcome_screen
->>>>>>>> main:app/src/main/java/com/example/composecinema/presentation/screens/auth_screens/welcome_screen/WelcomeScreen.kt
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,11 +30,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.composecinema.R
-import com.example.composecinema.presentation.navigation.NavDest
+import com.example.composecinema.presentation.navigation_graph.NavDest
 import com.example.composecinema.presentation.ui.theme.BlueAccent
 import com.example.composecinema.presentation.ui.theme.Dark
 import com.example.composecinema.presentation.ui.theme.White
-
 
 fun NavGraphBuilder.welcomeDestination(
     onLoginClick: () -> Unit,
