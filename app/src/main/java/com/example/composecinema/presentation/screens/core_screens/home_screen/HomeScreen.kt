@@ -48,9 +48,9 @@ fun NavGraphBuilder.homePageDestination(
         bottomBar = { BottomNavigationBar(navController) }
     ) { paddingValue ->
         HomeScreen(
+            modifier = Modifier.padding(paddingValue),
             viewState = viewState,
-            onEvent = { action -> viewModel.onEvent(action) },
-            modifier = Modifier.padding(paddingValue)
+            onEvent = { action -> viewModel.onEvent(action) }
         )
     }
 
@@ -61,8 +61,7 @@ fun HomeScreen(
     viewState: HomeState,
     onEvent: (HomeEvent) -> Unit,
     modifier: Modifier = Modifier,
-
-    ) {
+) {
 
     Column(
         modifier = Modifier

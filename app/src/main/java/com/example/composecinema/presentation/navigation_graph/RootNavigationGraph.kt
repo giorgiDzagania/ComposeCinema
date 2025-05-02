@@ -11,16 +11,13 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.example.composecinema.presentation.bottom_navigation.BottomNavItem
 import com.example.composecinema.presentation.screens.auth_screens.log_In_screen.loginDestination
 import com.example.composecinema.presentation.screens.auth_screens.sign_up_screen.signUpDestination
 import com.example.composecinema.presentation.screens.core_screens.favorites_screen.favoritesScreenDestination
 import com.example.composecinema.presentation.screens.core_screens.home_screen.homePageDestination
 import com.example.composecinema.presentation.screens.core_screens.profile_screen.profileScreenDestination
-import com.example.composecinema.presentation.screens.core_screens.search_screen.SearchScreen
 import com.example.composecinema.presentation.screens.core_screens.search_screen.searchScreenDestination
 import com.example.composecinema.presentation.screens.welcome_screen.welcomeDestination
 
@@ -111,6 +108,7 @@ fun RootNavigationGraph(navController: NavHostController) {
                 }
             }
         )
+
 
         // Core tabs
         homePageDestination(

@@ -76,7 +76,6 @@ fun SignUpScreen(
     onClickSignUp: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-
     Scaffold(
         containerColor = Dark,
         topBar = {
