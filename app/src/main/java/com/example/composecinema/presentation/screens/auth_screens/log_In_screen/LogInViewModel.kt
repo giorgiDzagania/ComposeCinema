@@ -27,12 +27,12 @@ class LogInViewModel(
                 _viewState.update { it.copy(password = action.value, error = null) }
             }
 
-            is LogInEvent.SubmitLogin -> {
-                logInUser()
-            }
-
             is LogInEvent.OnBackClicked -> {
                 _viewState.value = _viewState.value.copy(isLoggedIn = false)
+            }
+
+            is LogInEvent.SubmitLogin -> {
+                logInUser()
             }
         }
     }

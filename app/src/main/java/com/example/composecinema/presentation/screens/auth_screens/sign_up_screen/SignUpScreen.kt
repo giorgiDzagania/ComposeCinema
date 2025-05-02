@@ -59,11 +59,10 @@ fun NavGraphBuilder.signUpDestination(
             onSignUpSuccess()
         }
     }
+
     SignUpScreen(
         viewState = viewState,
-        onValueChange = viewModel::updateFields,
-        onClickSignUp = viewModel::signUpUser,
-        onBackClick = onBackClick,
+        onAction = viewModel::onAction
     )
 }
 
@@ -71,9 +70,7 @@ fun NavGraphBuilder.signUpDestination(
 @Composable
 fun SignUpScreen(
     viewState: SignUpState,
-    onValueChange: (SignUpFields, String) -> Unit,
-    onBackClick: () -> Unit = {},
-    onClickSignUp: () -> Unit = {},
+    onAction: (SignUpEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -82,7 +79,7 @@ fun SignUpScreen(
             CenterAlignedTopAppBar(
                 title = { Text(text = "Sign Up") },
                 navigationIcon = {
-                    IconButton(onClick = { onBackClick.invoke() }) {
+                    IconButton(onClick = { onAction(SignUpEvent.OnBackClicked) }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_arrow_back),
                             contentDescription = null
@@ -129,8 +126,8 @@ fun SignUpScreen(
                 }
                 Column {
                     OutlinedTextField(
-                        value = viewState.name,
-                        onValueChange = { onValueChange(SignUpFields.NAME, it) },
+                        value = viewState.fullName,
+                        onValueChange = { onAction(SignUpEvent.FullNameChanged(it)) },
                         label = {
                             Text(
                                 text = "Full Name",
@@ -156,7 +153,7 @@ fun SignUpScreen(
                     )
                     OutlinedTextField(
                         value = viewState.email,
-                        onValueChange = { onValueChange(SignUpFields.EMAIL, it) },
+                        onValueChange = { onAction(SignUpEvent.EmailChanged(it)) },
                         label = {
                             Text(
                                 text = "Email Address",
@@ -183,7 +180,7 @@ fun SignUpScreen(
 
                     OutlinedTextField(
                         value = viewState.password,
-                        onValueChange = { onValueChange(SignUpFields.PASSWORD, it) },
+                        onValueChange = { onAction(SignUpEvent.PasswordChanged(it)) },
                         label = {
                             Text(
                                 text = "Password",
@@ -210,9 +207,7 @@ fun SignUpScreen(
                 }
 
                 Button(
-                    onClick = {
-                        onClickSignUp()
-                    },
+                    onClick = { onAction(SignUpEvent.OnSubmitBtnClicked) },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = BlueAccent,
                         contentColor = White
@@ -261,8 +256,6 @@ fun SignUpScreen(
 fun SignUpScreenPreview() {
     SignUpScreen(
         viewState = SignUpState(),
-        onValueChange = { _, _ -> },
-        onBackClick = {},
-        onClickSignUp = {},
+        onAction = {}
     )
 }

@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composecinema.core.OperationStatus
 import com.example.composecinema.domain.use_cases.auth_use_case.SignUpUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -16,19 +18,33 @@ class SignUpViewModel(
     private val _viewState = MutableStateFlow(SignUpState())
     val viewState = _viewState.asStateFlow()
 
-    fun updateFields(field: SignUpFields, value: String) {
-        _viewState.update {
-            when (field) {
-                SignUpFields.NAME -> it.copy(name = value)
-                SignUpFields.EMAIL -> it.copy(email = value)
-                SignUpFields.PASSWORD -> it.copy(password = value)
+    fun onAction(action: SignUpEvent) {
+        when (action) {
+            is SignUpEvent.FullNameChanged -> {
+                _viewState.update { it.copy(fullName = action.value, error = null) }
+            }
+
+            is SignUpEvent.EmailChanged -> {
+                _viewState.update { it.copy(email = action.value, error = null) }
+            }
+
+            is SignUpEvent.PasswordChanged -> {
+                _viewState.update { it.copy(password = action.value, error = null) }
+            }
+
+            SignUpEvent.OnBackClicked -> {
+                _viewState.update { it.copy(isSignedUp = false) }
+            }
+
+            SignUpEvent.OnSubmitBtnClicked -> {
+                signUpUser()
             }
         }
     }
 
-    fun signUpUser() {
+    private fun signUpUser() {
         viewModelScope.launch {
-            val name = _viewState.value.name
+            val name = _viewState.value.fullName
             val email = _viewState.value.email
             val password = _viewState.value.password
             val inputError = validateInputs(name, email, password)
@@ -54,7 +70,6 @@ class SignUpViewModel(
 
                 }
             }
-//             _viewState.value = _viewState.value.copy(isLoading = false, error = null)
         }
     }
 
@@ -70,4 +85,5 @@ class SignUpViewModel(
             else -> null
         }
     }
+
 }
