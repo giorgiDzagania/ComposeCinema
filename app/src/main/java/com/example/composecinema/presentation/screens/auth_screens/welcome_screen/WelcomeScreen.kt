@@ -19,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,28 +28,48 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.composecinema.R
 import com.example.composecinema.presentation.navigation_graph.NavDest
+import com.example.composecinema.presentation.screens.auth_screens.sign_up_screen.SignUpViewModel
+import com.example.composecinema.presentation.screens.auth_screens.welcome_screen.WelcomeEffect
+import com.example.composecinema.presentation.screens.auth_screens.welcome_screen.WelcomeEvent
+import com.example.composecinema.presentation.screens.auth_screens.welcome_screen.WelcomeState
+import com.example.composecinema.presentation.screens.auth_screens.welcome_screen.WelcomeViewModel
 import com.example.composecinema.presentation.ui.theme.BlueAccent
 import com.example.composecinema.presentation.ui.theme.Dark
 import com.example.composecinema.presentation.ui.theme.White
+import org.koin.androidx.compose.koinViewModel
 
 fun NavGraphBuilder.welcomeDestination(
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit
 ) = composable<NavDest.Welcome> {
+
+    val viewModel = koinViewModel<WelcomeViewModel>()
+    val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                WelcomeEffect.NavigateToLogin -> onLoginClick()
+                WelcomeEffect.NavigateToSignUp -> onSignUpClick()
+            }
+        }
+    }
+
     WelcomeScreen(
-        onSignUpClick = onSignUpClick,
-        onLoginClick = onLoginClick
+        viewState = viewState,
+        onAction = viewModel::onEvent
     )
 }
 
 @Composable
 fun WelcomeScreen(
-    onLoginClick: () -> Unit,
-    onSignUpClick: () -> Unit,
+    viewState: WelcomeState,
+    onAction: (WelcomeEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold { paddingValues ->
@@ -75,7 +96,7 @@ fun WelcomeScreen(
                 modifier = Modifier.padding(top = 34.dp)
             )
             Button(
-                onClick = { onSignUpClick.invoke() },
+                onClick = { onAction(WelcomeEvent.onSignUpClick) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = BlueAccent,
                     contentColor = White
@@ -104,7 +125,7 @@ fun WelcomeScreen(
                     color = BlueAccent,
                     fontSize = 18.sp,
                     modifier = Modifier.clickable {
-                        onLoginClick.invoke()
+                        onAction(WelcomeEvent.onLoginClick)
                     }
                 )
             }
@@ -162,6 +183,7 @@ fun WelcomeScreen(
                 }
             }
 
+
         }
     }
 }
@@ -170,7 +192,7 @@ fun WelcomeScreen(
 @Composable
 fun LogInOrSignUpScreenPreview() {
     WelcomeScreen(
-        onSignUpClick = {},
-        onLoginClick = {}
+        viewState = WelcomeState(),
+        onAction = {}
     )
 }

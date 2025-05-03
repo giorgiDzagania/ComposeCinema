@@ -109,7 +109,6 @@ fun RootNavigationGraph(navController: NavHostController) {
             }
         )
 
-
         // Core tabs
         homePageDestination(
             modifier = Modifier,

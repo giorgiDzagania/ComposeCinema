@@ -1,6 +1,7 @@
 package com.example.composecinema.presentation.screens.core_screens.home_screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -46,12 +47,20 @@ fun NavGraphBuilder.homePageDestination(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = { BottomNavigationBar(navController) }
-    ) { paddingValue ->
-        HomeScreen(
-            modifier = Modifier.padding(paddingValue),
-            viewState = viewState,
-            onEvent = { action -> viewModel.onEvent(action) }
-        )
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Dark)
+                .padding(paddingValues)
+                .padding(12.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            HomeScreen(
+                viewState = viewState,
+                onEvent = { action -> viewModel.onEvent(action) }
+            )
+        }
     }
 
 }
@@ -62,41 +71,42 @@ fun HomeScreen(
     onEvent: (HomeEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Dark)
-            .padding(12.dp),
-        horizontalAlignment = Alignment.Start
-    ) {
+    Box(modifier = modifier.fillMaxSize()) {
         if (viewState.loading) {
             CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                modifier = Modifier.align(Alignment.Center)
             )
         }
 
-        viewState.errorMessage.let {
+        if (viewState.errorMessage.isNotEmpty()) {
             Text(
-                text = it,
+                text = viewState.errorMessage,
                 color = Color.Red,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                modifier = Modifier.align(Alignment.Center)
             )
         }
 
         if (!viewState.loading) {
-            viewState.userName?.let {
-                GreetingHeader(userName = it, modifier = modifier)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 12.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                viewState.userName?.let {
+                    GreetingHeader(userName = it)
+                }
+                SearchBar(
+                    modifier = Modifier.padding(vertical = 16.dp),
+                    onEvent = { onEvent(HomeEvent.OnSearchClick) }
+                )
+                UpcomingMovies()
             }
-            SearchBar(
-                modifier = modifier.padding(vertical = 16.dp),
-                onEvent = { onEvent(HomeEvent.OnSearchClick) }
-            )
-            UpcomingMovies()
         }
-
     }
 }
+
+
 
 
 @Composable

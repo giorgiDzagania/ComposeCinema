@@ -45,7 +45,6 @@ import com.example.composecinema.presentation.ui.theme.Green
 import com.example.composecinema.presentation.ui.theme.White
 import org.koin.androidx.compose.koinViewModel
 
-
 fun NavGraphBuilder.signUpDestination(
     onBackClick: () -> Unit,
     onSignUpSuccess: () -> Unit
@@ -56,7 +55,9 @@ fun NavGraphBuilder.signUpDestination(
 
     LaunchedEffect(viewState.isSignedUp) {
         if (viewState.isSignedUp) {
-            onSignUpSuccess()
+            onSignUpSuccess.invoke()
+        }else if (viewState.isBackButtonClicked){
+            onBackClick.invoke()
         }
     }
 

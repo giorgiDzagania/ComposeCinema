@@ -33,7 +33,7 @@ class SignUpViewModel(
             }
 
             SignUpEvent.OnBackClicked -> {
-                _viewState.update { it.copy(isSignedUp = false) }
+                _viewState.update { it.copy(isBackButtonClicked = true) }
             }
 
             SignUpEvent.OnSubmitBtnClicked -> {

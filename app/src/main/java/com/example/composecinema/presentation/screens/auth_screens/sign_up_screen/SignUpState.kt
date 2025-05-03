@@ -5,6 +5,7 @@ data class SignUpState(
     val email: String = "",
     val password: String = "",
     val isSignedUp: Boolean = false,
+    val isBackButtonClicked: Boolean = false,
     val isLoading: Boolean = false,
     val error: String? = null,
 )
